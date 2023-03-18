@@ -8,7 +8,9 @@ from rest_framework.response import  Response
 from rest_framework.views import APIView
 from .utils import get_tokens_for_user
 from .serializers import RegistrationSerializer, PasswordChangeSerializer
-# Create your views here.
+from rest_framework.generics import ListAPIView
+from foodApp import models
+from foodApp.serializers import *
 
 
 class RegistrationView(APIView):
@@ -50,3 +52,20 @@ class ChangePasswordView(APIView):
         request.user.set_password(serializer.validated_data['new_password'])
         request.user.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class GetCountryAPIListView(ListAPIView):
+    queryset = models.Country.objects.all()
+    serializer_class = CountrySerializer
+
+class GetCategoryAPIListView(ListAPIView):
+    queryset = models.Category.objects.all()
+    serializer_class = CategorySerializer
+
+class GetDishAPIListView(ListAPIView):
+    queryset = models.Dish.objects.all()
+    serializer_class = DishSerializer
+
+class GetIngredientAPIListView(ListAPIView):
+    queryset = models.Ingredient.objects.all()
+    serializer_class = IngredientSerializer

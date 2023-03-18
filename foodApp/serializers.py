@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import UserProfile
+from foodApp import models
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -33,3 +34,27 @@ class PasswordChangeSerializer(serializers.Serializer):
         if not self.context['request'].user.check_password(value):
             raise serializers.ValidationError({'current_password': 'Does not match'})
         return value
+    
+class CountrySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Country
+        fields = "__all__"
+
+class CategorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Category
+        fields = "__all__"
+
+class DishSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Dish
+        fields = "__all__"
+
+class IngredientSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Ingredient
+        fields = "__all__"

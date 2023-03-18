@@ -5,6 +5,7 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
 from django import forms
 from .models import UserProfile
+from .models import *
 
 
 class UserCreationForm(forms.ModelForm):
@@ -70,3 +71,7 @@ class UserAdmin(BaseUserAdmin):
 
 
 admin.site.register(UserProfile, UserAdmin)
+admin.site.register(Country)
+admin.site.register(Ingredient)
+admin.site.register(Category)
+admin.site.register(Dish)

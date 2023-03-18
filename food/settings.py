@@ -29,7 +29,7 @@ SECRET_KEY = "django-insecure-oar-wlzpl6&05x35cth8-r#2xu*huww-v5-$1ht2v2crm7h$u@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*','foodappprediction.pythonanywhere.com']
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,

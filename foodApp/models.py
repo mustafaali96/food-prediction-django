@@ -1,54 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, UserManager
-
-
-# Create your models here.
-# class UserProfile(AbstractBaseUser):
-
-#     # user gender
-#     MALE = 1
-#     FEMALE = 2
-#     GENDER_CHOICES = (
-#         (MALE, "Male"),
-#         (FEMALE, "Female"),
-#     )
-
-#     name = models.CharField(max_length=255, null=False, blank=False)
-#     username = models.CharField(max_length=64, null=False, blank=False, unique=True)
-#     email = models.EmailField(null=False, blank=False, unique=True)
-#     age = models.PositiveIntegerField(null=False, blank=False)
-#     gender = models.PositiveIntegerField(choices=GENDER_CHOICES, default=1)
-#     contact = models.CharField(max_length=15, null=True, blank=True)
-#     bp = models.IntegerField(null=False, blank=False)
-#     sugar = models.IntegerField(null=False, blank=False)
-#     # is_superuser = models.BooleanField(default=True)
-#     is_active = models.BooleanField(default=True)
-#     is_staff = models.BooleanField(default=False)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
-
-#     objects = UserManager()
-
-#     USERNAME_FIELD = 'email'
-
-#     REQUIRED_FIELDS = ['name', 'username', 'gender', 'age', 'bp', 'sugar']
-
-#     def __str__(self):
-#         return f"{self.name} | {self.email}" 
-
-#     def is_male(self):
-#         return self.gender == 1
-    
-#     def is_female(self):
-#         return self.gender == 2
-    
-
-
-
 import datetime
-
 from django.contrib.auth.base_user import AbstractBaseUser
-from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
@@ -148,3 +101,31 @@ class UserProfile(AbstractBaseUser):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_admin
+
+
+class Country(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+    
+class Category(models.Model):
+    category = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.category
+    
+class Ingredient(models.Model):
+    ingredient = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.ingredient
+    
+class Dish(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    country = models.ForeignKey('Country', on_delete=models.CASCADE)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE)
+    Ingredient = models.ForeignKey('Ingredient', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
