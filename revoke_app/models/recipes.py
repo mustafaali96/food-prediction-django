@@ -42,8 +42,8 @@ class Ingredient(models.Model):
         (OUNCE, "Ounce"),
     )
 
-    ingredient = models.CharField(max_length=50, unique=True)
-    quantity = models.IntegerField(null=False, blank=False)
+    ingredient = models.CharField(max_length=50, unique=False)
+    quantity = models.FloatField(null=False, blank=False)
     unit = models.PositiveIntegerField(choices=UNIT_CHOICES, default=1, null=True, blank=True)
 
     def __str__(self):

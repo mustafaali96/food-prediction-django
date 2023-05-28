@@ -6,4 +6,5 @@ class IngredientSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Ingredient
         # fields = "__all__"
-        exclude = ('quantity', 'unit', )
+        fields = ('id', 'ingredient', 'quantity', 'get_unit_display', 'unit',)
+        # exclude = ('quantity', 'unit', )

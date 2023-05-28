@@ -8,5 +8,6 @@ admin.site.register(Category)
 admin.site.register(Country)
 admin.site.register(Ingredient)
 admin.site.register(Dish)
+admin.site.register(FoodCategory)
 
 
