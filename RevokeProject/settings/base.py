@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'djoser',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'django.contrib.staticfiles',
 ]
 
 MIDDLEWARE = [
@@ -125,6 +126,11 @@ CORS_ALLOW_ALL_ORIGINS = True
 # ==================Media Settings======================
 MEDIA_ROOT = os.path.join(tempfile.gettempdir(), 'project_media')
 MEDIA_URL = '/media/'
+
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATIC_URL = '/static/'
+
 
 # configure Djoser
 DJOSER = {
