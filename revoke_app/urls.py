@@ -10,6 +10,7 @@ urlpatterns = [
     path("foodCategory/", include("revoke_app.views.food_category.urls")),
     path("dishes/", include("revoke_app.views.dish.urls")),
     path("ingredient/", include("revoke_app.views.ingredient.urls")),
+    path("userSearch/", include("revoke_app.views.user_search.urls")),
     path("contact_us/", include("revoke_app.views.contact_us.urls")),
     path('', include('djoser.urls')),
 ]

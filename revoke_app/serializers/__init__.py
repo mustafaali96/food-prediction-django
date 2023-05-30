@@ -7,3 +7,4 @@ from revoke_app.serializers.food_category import *
 from revoke_app.serializers.country import *
 from revoke_app.serializers.dish import *
 from revoke_app.serializers.ingredient import *
+from revoke_app.serializers.user_search import *
