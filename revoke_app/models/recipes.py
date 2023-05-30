@@ -47,7 +47,7 @@ class Ingredient(models.Model):
     unit = models.PositiveIntegerField(choices=UNIT_CHOICES, default=1, null=True, blank=True)
 
     def __str__(self):
-        return f"{self.quantity} {self.unit} {self.ingredient}" 
+        return f"{self.quantity} {self.get_unit_display()} {self.ingredient}" 
     
 class Dish(models.Model):
 
@@ -68,7 +68,7 @@ class Dish(models.Model):
     country = models.ForeignKey('Country', on_delete=models.CASCADE)
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
     foodCategory = models.ForeignKey('FoodCategory', on_delete=models.CASCADE)
-    Ingredient = models.ForeignKey('Ingredient', on_delete=models.CASCADE)
+    Ingredient = models.ManyToManyField('Ingredient')
 
     def __str__(self):
         return f"{self.foodQuantity} {self.foodUnit} {self.name}" 

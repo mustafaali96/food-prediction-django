@@ -5,4 +5,5 @@ class DishSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Dish
-        fields = "__all__"
+        # fields = "__all__"
+        fields = ('id', 'name', 'foodQuantity', 'foodUnit', 'get_foodUnit_display', 'country', 'category', 'foodCategory', 'Ingredient',)

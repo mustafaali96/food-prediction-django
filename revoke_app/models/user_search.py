@@ -19,7 +19,7 @@ class UserSearch(models.Model):
     country = models.ForeignKey('Country', on_delete=models.CASCADE)
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
     foodCategory = models.ForeignKey('FoodCategory', on_delete=models.CASCADE)
-    Ingredient = models.ForeignKey('Ingredient', on_delete=models.CASCADE)
+    Ingredient = models.ManyToManyField('Ingredient')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
