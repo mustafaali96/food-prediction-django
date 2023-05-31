@@ -46,6 +46,9 @@ class Ingredient(models.Model):
     quantity = models.FloatField(null=False, blank=False)
     unit = models.PositiveIntegerField(choices=UNIT_CHOICES, default=1, null=True, blank=True)
 
+    class Meta:
+        unique_together = ("ingredient", "quantity", "unit")
+    
     def __str__(self):
         return f"{self.quantity} {self.get_unit_display()} {self.ingredient}" 
     
