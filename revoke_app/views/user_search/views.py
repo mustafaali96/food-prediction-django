@@ -1,5 +1,6 @@
 from rest_framework.generics import ListAPIView
 from revoke_app.serializers import UserSearchSerializer
+from revoke_app.serializers import DishSerializer
 from revoke_app import models
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -22,6 +23,8 @@ def create_user_search_data(request):
     serializer = UserSearchSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
+        dishes = models.Dish.objects.all()
+        serializer = DishSerializer(dishes, many=True)
         return Response(serializer.data, status=201)
     return Response(serializer.errors, status=400)
 

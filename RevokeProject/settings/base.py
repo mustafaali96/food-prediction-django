@@ -146,11 +146,11 @@ DJOSER = {
 
 # Email Integration
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_HOST_USER = 'apikey'
 EMAIL_HOST_PASSWORD = "" # this is your API key
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
+# EMAIL_USE_SSL = False
 DEFAULT_FROM_EMAIL = 'Home Cook <developerpro12346@gmail.com>' # this is the sendgrid email
