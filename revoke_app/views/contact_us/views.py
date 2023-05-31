@@ -21,12 +21,9 @@ class ContactUsAPIView(APIView):
         if serializer.is_valid():
             html_message = render_to_string(template_name="email_templates/contact_us.html", context=serializer.validated_data, request=request)
 
-            email_sent = EmailMultiAlternatives(subject="Response from User", body="A response from user", to=[CONTACT_US_TO_EMAIL])
+            email_sent = EmailMultiAlternatives(subject="Response from User", body="A response from user", to=[request.data['email'], CONTACT_US_TO_EMAIL], from_email=CONTACT_US_TO_EMAIL)
             email_sent.attach_alternative(html_message, 'text/html')
-            try:
-                email_sent = email_sent.send()
-            except Exception:
-                pass
+            email_sent = email_sent.send()
             return Response({"detail": "Reponse submited successfully"}, status=st.HTTP_200_OK)
 
         return Response(serializer.errors, status=st.HTTP_400_BAD_REQUEST)
