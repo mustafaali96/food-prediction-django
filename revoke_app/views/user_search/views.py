@@ -9,6 +9,7 @@ import pickle
 import numpy as np
 from sklearn.tree import DecisionTreeClassifier 
 from RevokeProject.settings.base import BASE_DIR
+import os
 
 
 class UserSearchAPIView(ListAPIView):
@@ -29,7 +30,8 @@ def create_user_search_data(request):
     if serializer.is_valid():
         serializer.save()
         # ML Code
-        loaded_model = pickle.load(open("ai_model/finalized_model.sav", 'rb')) 
+        modelPath = os.path.join(BASE_DIR, "ai_model/finalized_model.sav")
+        loaded_model = pickle.load(open(modelPath, 'rb')) 
         featureLst = loaded_model.feature_names_in_
         Ingredient = request.POST.getlist('Ingredient')
         IngredientQueryset = models.Ingredient.objects.filter(id__in=Ingredient)
@@ -67,6 +69,6 @@ def create_user_search_model(request):
     # Train Decision Tree Classifer
     clf = clf.fit(X,y)
     # save model
-    filename = 'ai_model/finalized_model.sav'
-    pickle.dump(clf, open(filename, 'wb'))
+    modelPath = os.path.join(BASE_DIR, "ai_model/finalized_model.sav")
+    pickle.dump(clf, open(modelPath, 'wb'))
     return Response(status=200)
