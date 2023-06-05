@@ -5,4 +5,5 @@ class IngredientSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Ingredient
-        fields = ('id', 'ingredient', 'quantity', 'get_unit_display', 'unit',)
+        fields = ('id', 'ingredient',)
+        # fields = ('id', 'ingredient', 'quantity', 'get_unit_display', 'unit',)

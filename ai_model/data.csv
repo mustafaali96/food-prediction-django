@@ -1,0 +1,73 @@
+,name,category,foodCategory,Ingredient__ingredient
+0,Chicken Broast,1,1,garam masala
+1,Chicken Broast,1,1,chicken
+2,Chicken Broast,1,1,salt
+3,Chicken Broast,1,1,oil
+4,Chicken Broast,1,1,green chilli
+5,Chicken Broast,1,1,egg
+6,Chicken Broast,3,1,garam masala
+7,Chicken Broast,3,1,chicken
+8,Chicken Broast,3,1,salt
+9,Chicken Broast,3,1,oil
+10,Chicken Broast,3,1,green chilli
+11,Chicken Broast,3,1,egg
+12,Pizza,1,1,tomato
+13,Pizza,1,1,onion
+14,Pizza,1,1,chicken
+15,Pizza,1,1,salt
+16,Pizza,1,1,oil
+17,Pizza,1,1,garlic
+18,Pizza,1,1,ginger
+19,Pizza,1,1,spice powders
+20,Pizza,1,1,water
+21,Pizza,1,1,sugar
+22,Pizza,1,1,flour
+23,Pizza,1,1,yeast
+24,Pizza,1,1,butter
+25,Pizza,1,1,red chili
+26,Pizza,1,1,mozzarella cheese
+27,Pizza,1,1,oregano
+28,Pizza,3,1,tomato
+29,Pizza,3,1,onion
+30,Pizza,3,1,chicken
+31,Pizza,3,1,salt
+32,Pizza,3,1,oil
+33,Pizza,3,1,garlic
+34,Pizza,3,1,ginger
+35,Pizza,3,1,spice powders
+36,Pizza,3,1,water
+37,Pizza,3,1,sugar
+38,Pizza,3,1,flour
+39,Pizza,3,1,yeast
+40,Pizza,3,1,butter
+41,Pizza,3,1,red chili
+42,Pizza,3,1,mozzarella cheese
+43,Pizza,3,1,oregano
+44,Zinger Burger,1,1,chicken
+45,Zinger Burger,1,1,salt
+46,Zinger Burger,1,1,oil
+47,Zinger Burger,1,1,sugar
+48,Zinger Burger,1,1,egg
+49,Zinger Burger,1,1,flour
+50,Zinger Burger,1,1,Cornflour
+51,Zinger Burger,1,1,Mustard powder
+52,Zinger Burger,1,1,Baking powder
+53,Zinger Burger,1,1,Chees slices
+54,Zinger Burger,1,1,Hot sauce
+55,Zinger Burger,1,1,mayonnaise
+56,Zinger Burger,1,1,milk
+57,Zinger Burger,1,1,bun
+58,Zinger Burger,3,1,chicken
+59,Zinger Burger,3,1,salt
+60,Zinger Burger,3,1,oil
+61,Zinger Burger,3,1,sugar
+62,Zinger Burger,3,1,egg
+63,Zinger Burger,3,1,flour
+64,Zinger Burger,3,1,Cornflour
+65,Zinger Burger,3,1,Mustard powder
+66,Zinger Burger,3,1,Baking powder
+67,Zinger Burger,3,1,Chees slices
+68,Zinger Burger,3,1,Hot sauce
+69,Zinger Burger,3,1,mayonnaise
+70,Zinger Burger,3,1,milk
+71,Zinger Burger,3,1,bun
