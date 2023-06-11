@@ -7,7 +7,8 @@ from rest_framework.response import Response
 import pandas as pd
 import pickle
 import numpy as np
-from sklearn.tree import DecisionTreeClassifier 
+# from sklearn.tree import DecisionTreeClassifier 
+from sklearn.ensemble import RandomForestClassifier
 from RevokeProject.settings.base import BASE_DIR
 import os
 
@@ -44,8 +45,14 @@ def create_user_search_data(request):
                 predictLst.append(0)
         predictLst[0] = request.data['category']
         predictLst[1] = request.data['foodCategory']
-        dishes = models.Dish.objects.filter(name=loaded_model.predict([predictLst])[0])
-        serializer = DishSerializer(dishes, many=True)
+        probLst = loaded_model.predict_proba([predictLst])[0]
+        classIdxs = sorted(
+                        range(len(probLst)),
+                        key=lambda index: probLst[index])
+        predictClasses = [loaded_model.classes_[i] for i in classIdxs[:10]] # top 10 predictions
+        dishes = models.Dish.objects.filter(name__in=predictClasses)
+        ordered_queryset = sorted(dishes, key=lambda obj: predictClasses.index(obj.name))
+        serializer = DishSerializer(ordered_queryset, many=True)
         return Response(serializer.data, status=201)
     return Response(serializer.errors, status=400)
 
@@ -65,8 +72,9 @@ def create_user_search_model(request):
     df.columns.name = None
     X = df.loc[:, df.columns!='name']
     y = df["name"]
-    clf = DecisionTreeClassifier()
-    # Train Decision Tree Classifer
+    # clf = DecisionTreeClassifier()
+    clf = RandomForestClassifier(max_depth=10, random_state=0)
+    # Train Random Forest Classifer
     clf = clf.fit(X,y)
     # save model
     modelPath = os.path.join(BASE_DIR, "ai_model/finalized_model.sav")
