@@ -62,6 +62,7 @@ def create_user_search_model(request):
     # Train mode
     df = pd.DataFrame(list(models.Dish.objects.all().values('name', 'category', 'foodCategory', 'Ingredient__ingredient')))
     df.rename(columns = {'Ingredient__ingredient':'ingredient'}, inplace = True)
+    df['ingredient'] = df['ingredient'].apply(lambda x:x.lower())
     df['value'] = 1
     df = np.round(pd.pivot_table(df, values='value',
                             index=['name', 'category', 'foodCategory'], 
