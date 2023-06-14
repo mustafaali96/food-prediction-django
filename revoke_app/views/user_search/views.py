@@ -53,6 +53,51 @@ def create_user_search_data(request):
         dishes = models.Dish.objects.filter(name__in=predictClasses)
         ordered_queryset = sorted(dishes, key=lambda obj: predictClasses.index(obj.name))
         serializer = DishSerializer(ordered_queryset, many=True)
+
+        # extra filters
+
+        userId = request.data['user']
+        userData = models.User.objects.filter(id=userId).first()
+        userBp = userData.bp
+        userSugar = userData.sugar
+        mostRec = {}
+        dishesList = models.Dish.objects.all() 
+        for dish in dishesList:
+            unHealthy = False
+            mostRec[dish.name] = 0
+            for ingredient in IngredientLst:
+                if dish.Ingredient.filter(ingredient=ingredient).exists():
+                    mostRec[dish.name] += 1
+            if dish.category.filter(id=request.data['category']).exists():
+                mostRec[dish.name] += 1
+            if dish.foodCategory.id == int(request.data['foodCategory']):
+                mostRec[dish.name] += 1
+            if userSugar != 'Normal' and dish.foodCategory.foodCategory in ['Desert']:
+                del mostRec[dish.name]
+                unHealthy = True
+            if unHealthy:
+                continue
+            for dishIngredient in models.Dish.objects.filter(name=dish.name):
+                dishIngredient = [f.ingredient for f in dishIngredient.Ingredient.all()]
+            for ingredient in dishIngredient:
+                if unHealthy:
+                    continue
+                if userBp != 'Healthy' and ingredient.lower() in ['butter', 'oil', 'ghee', 'cottage cheese', 'mozzarella cheese', 'paratha']:  # high bp ingredients
+                    del mostRec[dish.name]
+                    unHealthy = True
+                if userSugar != 'Normal' and ingredient.lower() in ['sugar'] and not unHealthy:
+                    del mostRec[dish.name]
+                    unHealthy = True
+            
+        
+        mostRecClasses = sorted(mostRec.items(), key=lambda x:x[1], reverse=True)
+        mostRecClassesDict = dict(mostRecClasses)
+        mostRecClassesDict = dict((k, v) for k, v in mostRecClassesDict.items() if v > 0)
+        predictClasses = list(mostRecClassesDict.keys())
+        dishes = models.Dish.objects.filter(name__in=predictClasses)
+        ordered_queryset = sorted(dishes, key=lambda obj: predictClasses.index(obj.name))
+        serializer = DishSerializer(ordered_queryset, many=True)
+
         return Response(serializer.data, status=201)
     return Response(serializer.errors, status=400)
 
