@@ -1,6 +1,6 @@
 from rest_framework.generics import ListAPIView
 from revoke_app.serializers import UserSearchSerializer
-from revoke_app.serializers import DishSerializer
+from revoke_app.serializers import DishSerializer, PredictDishSerializer
 from revoke_app import models
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -52,7 +52,7 @@ def create_user_search_data(request):
         predictClasses = [loaded_model.classes_[i] for i in classIdxs[:10]] # top 10 predictions
         dishes = models.Dish.objects.filter(name__in=predictClasses)
         ordered_queryset = sorted(dishes, key=lambda obj: predictClasses.index(obj.name))
-        serializer = DishSerializer(ordered_queryset, many=True)
+        serializer = PredictDishSerializer(ordered_queryset, many=True)
 
         # extra filters
 
@@ -61,33 +61,46 @@ def create_user_search_data(request):
         userBp = userData.bp
         userSugar = userData.sugar
         mostRec = {}
+        custNote = {}
         dishesList = models.Dish.objects.all() 
         for dish in dishesList:
+            dishNote = ''
             unHealthy = False
             mostRec[dish.name] = 0
             for ingredient in IngredientLst:
                 if dish.Ingredient.filter(ingredient=ingredient).exists():
                     mostRec[dish.name] += 1
-            if dish.category.filter(id=request.data['category']).exists():
-                mostRec[dish.name] += 1
+            # if dish.category.filter(id=request.data['category']).exists():
+            #     # mostRec[dish.name] += 1
+            #     dishNote += ''
+            # else:
+            #     dishNote = 'Based on ingredient we have recommended you this dish.'
             if dish.foodCategory.id == int(request.data['foodCategory']):
                 mostRec[dish.name] += 1
             if userSugar != 'Normal' and dish.foodCategory.foodCategory in ['Desert']:
-                del mostRec[dish.name]
+                # del mostRec[dish.name]
+                dishNote = "Based on Sugar level we don't recommended you this Food Category dish."
                 unHealthy = True
-            if unHealthy:
-                continue
+            # if unHealthy:
+            #     continue
             for dishIngredient in models.Dish.objects.filter(name=dish.name):
                 dishIngredient = [f.ingredient for f in dishIngredient.Ingredient.all()]
             for ingredient in dishIngredient:
                 if unHealthy:
                     continue
                 if userBp != 'Healthy' and ingredient.lower() in ['butter', 'oil', 'ghee', 'cottage cheese', 'mozzarella cheese', 'paratha']:  # high bp ingredients
-                    del mostRec[dish.name]
+                    dishNote += " Based on BP we don't recommended you this dish."
+                    # del mostRec[dish.name]
                     unHealthy = True
                 if userSugar != 'Normal' and ingredient.lower() in ['sugar'] and not unHealthy:
-                    del mostRec[dish.name]
+                    dishNote += " Based on Sugar level we don't recommended you this dish."
+                    # del mostRec[dish.name]
                     unHealthy = True
+            if dishNote == '':
+                dishNote = 'Based on ingredient we have recommended you this dish.'
+            custNote[dish.name] = dishNote
+        
+        # print(custNote)
             
         
         mostRecClasses = sorted(mostRec.items(), key=lambda x:x[1], reverse=True)
@@ -96,7 +109,9 @@ def create_user_search_data(request):
         predictClasses = list(mostRecClassesDict.keys())
         dishes = models.Dish.objects.filter(name__in=predictClasses)
         ordered_queryset = sorted(dishes, key=lambda obj: predictClasses.index(obj.name))
-        serializer = DishSerializer(ordered_queryset, many=True)
+        for dish in ordered_queryset:
+            dish.note = custNote[dish.name]
+        serializer = PredictDishSerializer(ordered_queryset, many=True)
 
         return Response(serializer.data, status=201)
     return Response(serializer.errors, status=400)
